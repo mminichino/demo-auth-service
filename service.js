@@ -16,6 +16,7 @@ console.log("Couchbase Cluster: " + config.cbHost + " User/Bucket: " + config.cb
 //REST interface
 const {checkToken} = require('./auth');
 const {returnNameSessionJson} = require('./session');
+const {loginUser} = require('./session');
 const {getHealthCheckPage} = require('./health');
 
 //Service Port
@@ -28,6 +29,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.get('/api/v1/auth/name/:name', checkToken, returnNameSessionJson);
+app.get('/api/v1/auth/login', checkToken, loginUser);
 app.get('/healthz', getHealthCheckPage);
 
 // start the app and listen on the port

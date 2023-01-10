@@ -13,5 +13,6 @@ module.exports = {
     sgwPassword: process.env.SYNC_GATEWAY_PASSWORD || "password",
     sgwPort: process.env.SYNC_GATEWAY_PORT || "4985",
     sgwDatabase:  process.env.SYNC_GATEWAY_DB || "employees",
-    authUserField: process.env.AUTH_FIELD || "employee_id"
+    authUserField: process.env.AUTH_FIELD || "employee_id",
+    storeIdField: process.env.AUTH_FIELD || "store_id",
 };

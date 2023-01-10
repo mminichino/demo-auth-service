@@ -39,6 +39,7 @@ module.exports = {
                                 }
                             });
                         } else {
+                            res.locals.userRecord = row['employees']
                             next();
                         }
                     });
