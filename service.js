@@ -34,5 +34,11 @@ app.get('/healthz', getHealthCheckPage);
 
 // start the app and listen on the port
 app.listen(port, () => {
-    console.log('Server running on port: ' + port);
+    console.log('Service is running');
+    console.log('Port      : ' + port);
+    console.log('Bucket    : ' + config.cbBucket);
+    console.log('Scope     : ' + config.cbScope);
+    console.log('Collection: ' + config.cbCollection);
+    console.log('SGW DB    : ' + config.sgwDatabase);
+    console.log('Auth Field: ' + config.authUserField);
 });

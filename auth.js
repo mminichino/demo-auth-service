@@ -12,6 +12,13 @@ module.exports = {
                 'base64').toString().split(':');
             let username = auth[0];
             let password = auth[1];
+            let recordKey;
+            if (config.cbCollection !== '_default') {
+                recordKey = config.cbCollection;
+            } else {
+                recordKey = config.cbBucket;
+            }
+            console.log('Processing request for user ' + username);
 
             db.query(config.authUserField, username, (err, result) => {
                 if (err) {
@@ -26,7 +33,7 @@ module.exports = {
                 } else {
                     result.forEach((row) => {
                         let hash = crypto.createHash('sha1');
-                        let row_password = row['employees']['password'];
+                        let row_password = row[recordKey]['password'];
                         let hashed_auth_password = hash.update(password).digest('base64');
 
                         if (row_password !== hashed_auth_password) {
@@ -39,7 +46,7 @@ module.exports = {
                                 }
                             });
                         } else {
-                            res.locals.userRecord = row['employees']
+                            res.locals.userRecord = row[recordKey]
                             next();
                         }
                     });

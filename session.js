@@ -34,7 +34,7 @@ module.exports = {
     },
     loginUser: (req, res) => {
         let userRecord = res.locals.userRecord;
-        let sgwUser = config.storeIdField + "@" + userRecord[config.storeIdField]
+        let sgwUser = config.groupIdField + "@" + userRecord[config.groupIdField]
         let timestamp = Date.now();
         let authString = new Buffer.from(config.sgwUser + ':' + config.sgwPassword).toString('base64')
 
@@ -46,10 +46,10 @@ module.exports = {
                 'Authorization': `Basic ${authString}`
             }
         }).then((restResource) => {
-            console.log("User " + sgwUser + " logged in");
+            console.log("SGW User " + sgwUser + " logged in");
             let responseString = JSON.stringify(restResource.data);
             let sessionData = JSON.parse(responseString)
-            sessionData['store_id'] = userRecord[config.storeIdField]
+            sessionData[config.groupIdField] = userRecord[config.groupIdField]
             res.status(200);
             res.json(sessionData);
         }).catch((error) => {
