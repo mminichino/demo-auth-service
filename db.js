@@ -38,8 +38,13 @@ function read(key, callback) {
     });
 }
 
-function query(field, value, callback) {
-    let query = "SELECT * FROM " + keyspaceName + " WHERE " + field + "= \"" + value + "\";";
+function query(field, value, type, callback) {
+    let extra = "";
+    if (type !== undefined) {
+        extra = " AND type = \"" + type + "\"";
+    }
+    let query = "SELECT * FROM " + keyspaceName + " WHERE " + field + " = \"" + value + "\"" + extra + ";";
+    console.log(query);
     connect((cluster) => {
         cluster.query(query, options).then((result) => {
             return callback(undefined, result.rows);

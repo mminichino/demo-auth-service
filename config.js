@@ -12,7 +12,8 @@ module.exports = {
     sgwUser: process.env.SYNC_GATEWAY_USER || "Administrator",
     sgwPassword: process.env.SYNC_GATEWAY_PASSWORD || "password",
     sgwPort: process.env.SYNC_GATEWAY_PORT || "4985",
-    sgwDatabase:  process.env.SYNC_GATEWAY_DB || "employees",
+    sgwDatabase: process.env.SYNC_GATEWAY_DB || "employees",
     authUserField: process.env.AUTH_FIELD || "employee_id",
     groupIdField: process.env.GROUP_ID_FIELD || "store_id",
+    typeField: process.env.TYPE_FIELD || undefined,
 };

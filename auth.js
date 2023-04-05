@@ -20,7 +20,7 @@ module.exports = {
             }
             console.log('Processing request for user ' + username);
 
-            db.query(config.authUserField, username, (err, result) => {
+            db.query(config.authUserField, username, config.typeField, (err, result) => {
                 if (err) {
                     res.status(500);
                     return res.json({
@@ -28,6 +28,15 @@ module.exports = {
                         status: "failure",
                         message: {
                             text: "Error accessing database " + err
+                        }
+                    });
+                } else if (result.length === 0) {
+                    res.status(403);
+                    return res.json({
+                        responseTime: timestamp,
+                        status: "failure",
+                        message: {
+                            text: "Invalid Credentials"
                         }
                     });
                 } else {
