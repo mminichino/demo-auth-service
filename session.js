@@ -49,7 +49,7 @@ module.exports = {
             console.log("SGW User " + sgwUser + " logged in");
             let responseString = JSON.stringify(restResource.data);
             let sessionData = JSON.parse(responseString)
-            sessionData[config.groupIdField] = userRecord[config.groupIdField]
+            sessionData["group"] = userRecord[config.groupIdField]
             res.status(200);
             res.json(sessionData);
         }).catch((error) => {
