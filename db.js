@@ -8,11 +8,12 @@ const useTls = toBoolean(config.cbTls)
 const options = {}
 let cbString;
 if (useTls) {
-    cbString = 'couchbases://' + config.cbHost + '?ssl=no_verify';
+    cbString = 'couchbases://' + config.cbHost + '?tls_verify=none';
 } else {
     cbString = 'couchbase://' + config.cbHost;
 }
 const keyspaceName = getKeyspaceName();
+console.log('Couchbase Connect String: ' + cbString)
 
 function connect(callback) {
     couchbase.connect(cbString, {username: config.cbUser, password: config.cbPassword})

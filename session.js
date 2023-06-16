@@ -1,6 +1,16 @@
 // REST API Return Session
 const axios = require('axios');
+const https = require('https');
 const config = require('./config');
+const toBoolean = require("to-boolean");
+const useTls = toBoolean(config.cbTls)
+let prefix = useTls ? 'https://' : 'http://';
+let apiUrl = prefix + config.sgwHost + ':' + config.sgwPort + '/' + config.sgwDatabase + '/_session';
+const agent = new https.Agent({
+    rejectUnauthorized: false,
+});
+
+console.log('API Base URL: ' + apiUrl);
 
 module.exports = {
     returnNameSessionJson: (req, res) => {
@@ -8,13 +18,16 @@ module.exports = {
         let timestamp = Date.now();
         let authString = new Buffer.from(config.sgwUser + ':' + config.sgwPassword).toString('base64')
 
-        axios.post('/_session', {
+        axios({
+            method: 'post',
+            url: apiUrl,
+            httpsAgent: agent,
+            data: {
                 name: sgwUser,
-            }, {
-                baseURL: 'http://' + config.sgwHost + ':' + config.sgwPort + '/' + config.sgwDatabase,
-                headers: {
-                    'Authorization': `Basic ${authString}`
-                }
+            },
+            headers: {
+                'Authorization': `Basic ${authString}`
+            }
         }).then((restResource) => {
                 console.log("User " + sgwUser + " logged in");
                 res.status(200);
@@ -38,10 +51,13 @@ module.exports = {
         let timestamp = Date.now();
         let authString = new Buffer.from(config.sgwUser + ':' + config.sgwPassword).toString('base64')
 
-        axios.post('/_session', {
-            name: sgwUser,
-        }, {
-            baseURL: 'http://' + config.sgwHost + ':' + config.sgwPort + '/' + config.sgwDatabase,
+        axios({
+            method: 'post',
+            url: apiUrl,
+            httpsAgent: agent,
+            data: {
+                name: sgwUser,
+            },
             headers: {
                 'Authorization': `Basic ${authString}`
             }
